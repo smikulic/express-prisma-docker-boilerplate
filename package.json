@@ -1,5 +1,5 @@
 {
-  "name": "valence-test-sinisa",
+  "name": "express-prisma-docker-boilerplate",
   "version": "1.0.0",
   "main": "index.js",
   "author": "Sinisa Mikulic <sinisa.mikulic@gmail.com>",
