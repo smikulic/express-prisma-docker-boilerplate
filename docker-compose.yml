@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   postgres:
     image: postgres:latest
@@ -8,22 +8,35 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - postgresDB:/data/postgres
     env_file:
       - ./server/.env
-  
+
   node-express-api:
     stdin_open: true
+    container_name: node-express-api
     build:
       context: .
       dockerfile: server.Dockerfile
-    container_name: node-express-api
     depends_on:
       - postgres
     ports:
       - "8000:8000"
     restart: always
+
+  client:
+    stdin_open: true
+    container_name: client
+    build:
+      context: .
+      dockerfile: client.Dockerfile
+    depends_on:
+      - node-express-api
+    ports:
+      - "3000:3000"
+    tty: true
+
 volumes:
   postgresDB:

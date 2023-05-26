@@ -5,7 +5,13 @@
   "author": "Sinisa Mikulic <sinisa.mikulic@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "start:all": "concurrently \"yarn run start:server\" \"yarn run start:client\"",
     "start": "docker-compose up",
+    "start:client": "cd client && yarn start",
+    "start:server": "docker-compose up",
     "stop": "docker-compose down"
+  },
+  "dependencies": {
+    "concurrently": "^8.0.1"
   }
 }
