@@ -3,10 +3,14 @@ services:
   postgres:
     image: postgres:latest
     container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
     ports:
-      - '6500:5432'
+      - '5432:5432'
     volumes:
-      - progresDB:/data/postgres
+      - postgresDB:/data/postgres
     env_file:
       - ./server/.env
   
@@ -19,8 +23,7 @@ services:
     depends_on:
       - postgres
     ports:
-      - "3000:3000"
       - "8000:8000"
     restart: always
 volumes:
-  progresDB:
+  postgresDB:

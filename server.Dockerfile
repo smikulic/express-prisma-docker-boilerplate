@@ -28,8 +28,8 @@ RUN npx prisma generate
 # RUN prisma db migrations
 RUN npx prisma migrate dev
 
-# Run and expose the server on port 3000
-EXPOSE 3000
+# Run and expose the server on port 8000
+EXPOSE 8000
 
 # A command to start the server
-CMD npm start
+CMD yarn start
