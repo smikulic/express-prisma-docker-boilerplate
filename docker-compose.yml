@@ -1,0 +1,26 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - '6500:5432'
+    volumes:
+      - progresDB:/data/postgres
+    env_file:
+      - ./server/.env
+  
+  node-express-api:
+    stdin_open: true
+    build:
+      context: .
+      dockerfile: server.Dockerfile
+    container_name: node-express-api
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+      - "8000:8000"
+    restart: always
+volumes:
+  progresDB:

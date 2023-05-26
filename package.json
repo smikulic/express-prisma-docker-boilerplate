@@ -1,0 +1,11 @@
+{
+  "name": "valence-test-sinisa",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Sinisa Mikulic <sinisa.mikulic@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "docker-compose up",
+    "stop": "docker-compose down"
+  }
+}
