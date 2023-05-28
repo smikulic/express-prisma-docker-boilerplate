@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import logo from "./logo.svg";
 import "./App.css";
 
@@ -21,37 +21,52 @@ async function postData(url = "", data = {}) {
 }
 
 function App() {
+  const [usersList, setUsersList] = useState([]);
+
+  const generateRandomString = () => {
+    const characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let randomString = "";
+
+    for (let i = 0; i < 4; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      randomString += characters.charAt(randomIndex);
+    }
+
+    return randomString;
+  };
+
   const getUsers = async () => {
-    const response = fetch("http://localhost:8000/api/users", {
+    fetch("http://localhost:8000/api/users", {
       method: "GET",
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
-    }).then((response) => {
-      console.log({ response });
-      const jsonData = response.json();
-      console.log({ jsonData });
-    });
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((response) => setUsersList(response.data));
   };
 
   const createUser = () => {
     postData("http://localhost:8000/api/users", {
-      email: "test@email.com",
+      email: `${generateRandomString()}-test@email.com`,
       password: "password",
     }).then((data) => {
       console.log(data); // JSON data parsed by `data.json()` call
+      getUsers();
     });
   };
 
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  console.log({ usersList });
+
   return (
     <div className="App">
-      <button
-        onClick={() => {
-          getUsers();
-        }}
-      >
-        Fetch users
-      </button>
       <button
         onClick={() => {
           createUser();
@@ -60,20 +75,13 @@ function App() {
         Create user
       </button>
 
-      {/* <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header> */}
+      <br />
+      <div className="listUsers">
+        {usersList &&
+          usersList.map((user: { email: string }, key: number) => {
+            return <div key={key}>{user.email}</div>;
+          })}
+      </div>
     </div>
   );
 }
