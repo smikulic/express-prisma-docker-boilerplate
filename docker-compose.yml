@@ -36,7 +36,13 @@ services:
       - node-express-api
     ports:
       - "3000:3000"
-    tty: true
+    volumes: # For webpack dev server to use our local files
+      - ./client:/client
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    # tty: true
 
 volumes:
   postgresDB:
